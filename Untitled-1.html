@@ -7,18 +7,18 @@
   <meta name="description" content="Platform absensi dan LMS sederhana (pilihan ganda). Works offline with localStorage.">
   <style>
     /* =========================
-       THEME: merah - putih Elegan
+       THEME: MERAH BENDERA - Putih
        ========================= */
     :root{
-      --red: #B30000;
-      --red-dark: #8a0000;
+      --red: #ff0000;
+      --red-dark: #c70000;
       --bg: #ffffff;
       --muted: #f7f7f7;
       --card: #ffffff;
       --text: #111;
-      --accent: #d94b4b;
+      --accent: #e33a3a;
     }
-    *{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; }
+    *{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
     html,body{height:100%;margin:0;background:var(--muted);color:var(--text);}
 
     /* layout */
@@ -43,7 +43,7 @@
 
     /* hero */
     .hero{height:180px;border-radius:12px;overflow:hidden;background-image:url('https://i.ibb.co/5v8M3t4/tech-red.jpg');background-size:cover;background-position:center;position:relative;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
-    .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.28),rgba(0,0,0,0.08))}
+    .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.28),rgba(0,0,0,0.08));}
     .hero .txt{position:absolute;left:28px;bottom:18px;color:#fff}
     .hero h1{margin:0;font-size:24px}
     .hero p{margin:6px 0 0;opacity:0.95;font-size:13px}
@@ -56,7 +56,7 @@
 
     /* form elements */
     label{display:block;margin-top:10px;font-size:13px;color:#444}
-    input[type=text],select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e6e6;background:#fff;font-size:14px}
+    input[type=text],input[type=password],select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e6e6;background:#fff;font-size:14px}
     textarea{min-height:80px;resize:vertical}
     .row{display:flex;gap:10px}
     .row .col{flex:1}
@@ -86,27 +86,32 @@
     .right{display:flex;gap:8px;justify-content:flex-end;align-items:center}
     .center{display:flex;gap:8px;align-items:center}
     .hidden{display:none}
+
+    /* small responsive tweaks */
+    @media(max-width:700px){
+      aside.sidebar{display:none}
+      main.main{margin-left:0;padding:16px}
+    }
   </style>
 </head>
 <body>
   <div class="app">
-    <aside class="sidebar">
+    <aside class="sidebar" role="navigation" aria-label="Main">
       <div class="brand">NEVTIK<br><small style="font-weight:600">TKJ LEARNING</small></div>
       <nav class="nav" aria-label="main navigation">
         <button id="nav-beranda" class="active" onclick="nav('beranda', this)">Beranda</button>
         <button id="nav-absensi" onclick="nav('absensi', this)">Absensi</button>
-        <!-- pengajar button sekarang buka modal login -->
         <button id="nav-pengajar" onclick="openPengajarLogin(this)">Pengajar (Buat Soal)</button>
         <button id="nav-lms" onclick="nav('lms', this)">LMS (Kerjakan Soal)</button>
         <button id="nav-admin" onclick="nav('admin', this)">Admin</button>
       </nav>
-      <small>Nevtik-TKJ-Learning -2025</small>
+      <small>Nevtik — TKJ Learning · 2025</small>
     </aside>
 
-    <main class="main">
+    <main class="main" role="main">
       <!-- BERANDA -->
       <section id="beranda" class="view">
-        <div class="hero">
+        <div class="hero" role="region" aria-label="Hero banner">
           <div class="txt">
             <h1>NEVTIK — TKJ LEARNING</h1>
             <p>Platform absensi & pembelajaran — Praktik cepat dan simpel.</p>
@@ -116,8 +121,8 @@
         <div class="grid">
           <div>
             <div class="card">
-              <h2>Selamat datang</h2>
-              <p class="muted">Gunakan menu di kiri untuk absensi, membuat soal bagi (pengajar), atau siswa yang mengerjakan soal di LMS.</p>
+              <h2>Selamat datang Di Web Nevtik-TKJ-Learning</h2>
+              <p class="muted">Gunakan menu di kiri untuk absensi, (pengajar), atau siswa yang mengerjakan soal di LMS.</p>
             </div>
           </div>
 
@@ -126,23 +131,27 @@
               <h4>Quick actions</h4>
               <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
                 <button class="primary" onclick="nav('absensi')">Isi Absensi</button>
-                <!-- quick action juga buka modal login -->
                 <button class="ghost" onclick="openPengajarLogin()">Buat Soal (Pengajar)</button>
                 <button class="ghost" onclick="nav('lms')">Kerjakan Soal (LMS)</button>
               </div>
+            </div>
+
+            <div class="card" style="margin-top:12px">
+              <h4>About</h4>
+              <p class="muted" style="margin:0">Web Nevtik TKJ Learning ini untuk memudahkan pembelajaran Seperti Absensi dan Mengerjakan soal Quizz dengan fitur LMS.</p>
             </div>
           </aside>
         </div>
       </section>
 
       <!-- ABSENSI -->
-      <section id="absensi" class="view hidden">
+      <section id="absensi" class="view hidden" aria-hidden="true">
         <div class="card">
           <h2>Form Absensi</h2>
           <div style="margin-top:10px">
-            <label>Nama lengkap</label>
-            <input type="text" id="abs-nama" placeholder="Masukkan nama lengkap">
-            <label>Kelas</label>
+            <label for="abs-nama">Nama lengkap</label>
+            <input id="abs-nama" type="text" placeholder="Masukkan nama lengkap">
+            <label for="abs-kelas">Kelas</label>
             <select id="abs-kelas">
               <option value="X TKJ 1">X TKJ 1</option>
               <option value="X TKJ 2">X TKJ 2</option>
@@ -155,7 +164,7 @@
               <button class="ghost" onclick="clearAbsensiForm()">Bersihkan</button>
             </div>
 
-            <div id="abs-msg" class="muted" style="margin-top:10px"></div>
+            <div id="abs-msg" class="muted" style="margin-top:10px" aria-live="polite"></div>
           </div>
         </div>
 
@@ -166,30 +175,29 @@
       </section>
 
       <!-- PENGAJAR: BUAT SOAL -->
-      <section id="pengajar" class="view hidden">
+      <section id="pengajar" class="view hidden" aria-hidden="true">
         <div class="card">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <h2>Pengajar — Buat Soal (Pilihan Ganda)</h2>
             <div>
-              <!-- tombol logout pengajar (opsional) -->
               <button id="peng-logout-btn" class="ghost hidden small" onclick="pengajarLogout()">Logout</button>
             </div>
           </div>
 
           <div style="margin-top:10px">
-            <label>Soal</label>
+            <label for="q-text">Soal</label>
             <textarea id="q-text" placeholder="Tulis pertanyaan di sini..." rows="3"></textarea>
 
             <div class="row" style="margin-top:10px">
-              <div class="col"><label>Opsi A</label><input id="q-a0" type="text" placeholder="Pilihan A"></div>
-              <div class="col"><label>Opsi B</label><input id="q-a1" type="text" placeholder="Pilihan B"></div>
+              <div class="col"><label for="q-a0">Opsi A</label><input id="q-a0" type="text" placeholder="Pilihan A"></div>
+              <div class="col"><label for="q-a1">Opsi B</label><input id="q-a1" type="text" placeholder="Pilihan B"></div>
             </div>
             <div class="row">
-              <div class="col"><label>Opsi C</label><input id="q-a2" type="text" placeholder="Pilihan C"></div>
-              <div class="col"><label>Opsi D</label><input id="q-a3" type="text" placeholder="Pilihan D"></div>
+              <div class="col"><label for="q-a2">Opsi C</label><input id="q-a2" type="text" placeholder="Pilihan C"></div>
+              <div class="col"><label for="q-a3">Opsi D</label><input id="q-a3" type="text" placeholder="Pilihan D"></div>
             </div>
 
-            <label style="margin-top:10px">Jawaban Benar</label>
+            <label for="q-correct" style="margin-top:10px">Jawaban Benar</label>
             <select id="q-correct">
               <option value="0">A</option>
               <option value="1">B</option>
@@ -201,7 +209,7 @@
               <button class="primary" onclick="addQuestion()">Tambah Soal</button>
               <button class="ghost" onclick="clearQuestionForm()">Bersihkan</button>
             </div>
-            <div id="q-form-msg" class="muted" style="margin-top:8px"></div>
+            <div id="q-form-msg" class="muted" style="margin-top:8px" aria-live="polite"></div>
           </div>
         </div>
 
@@ -212,16 +220,16 @@
       </section>
 
       <!-- LMS: SISWA KERJAKAN SOAL -->
-      <section id="lms" class="view hidden">
+      <section id="lms" class="view hidden" aria-hidden="true">
         <div class="card">
           <h2>LMS — Kerjakan Soal</h2>
 
           <div style="display:grid;grid-template-columns:1fr 300px;gap:18px">
             <div>
-              <label>Nama (lengkap)</label>
+              <label for="stu-name">Nama (lengkap)</label>
               <input id="stu-name" type="text" placeholder="Nama siswa">
 
-              <label style="margin-top:8px">Kelas</label>
+              <label for="stu-class" style="margin-top:8px">Kelas</label>
               <select id="stu-class">
                 <option>X TKJ 1</option>
                 <option>X TKJ 2</option>
@@ -233,7 +241,7 @@
                 <button class="primary" onclick="startQuiz()">Mulai Quiz</button>
                 <button class="ghost" onclick="clearStudentForm()">Bersihkan</button>
               </div>
-              <div id="lms-msg" class="muted" style="margin-top:8px"></div>
+              <div id="lms-msg" class="muted" style="margin-top:8px" aria-live="polite"></div>
             </div>
 
             <aside>
@@ -250,22 +258,22 @@
         </div>
 
         <!-- area quiz muncul di sini -->
-        <div id="quiz-area" style="margin-top:18px;display:none"></div>
+        <div id="quiz-area" style="margin-top:18px;display:none" aria-live="polite"></div>
       </section>
 
       <!-- ADMIN PANEL -->
-      <section id="admin" class="view hidden">
+      <section id="admin" class="view hidden" aria-hidden="true">
         <div class="card" id="admin-login-card">
           <h2>Admin Login</h2>
-          <label>Username</label>
+          <label for="admin-user">Username</label>
           <input id="admin-user" type="text" placeholder="username">
-          <label style="margin-top:8px">Password</label>
+          <label for="admin-pass" style="margin-top:8px">Password</label>
           <input id="admin-pass" type="password" placeholder="password">
           <div style="margin-top:12px"><button class="primary" onclick="adminLogin()">Login</button></div>
-          <div id="admin-login-msg" class="muted" style="margin-top:10px"></div>
+          <div id="admin-login-msg" class="muted" style="margin-top:10px" aria-live="polite"></div>
         </div>
 
-        <div id="admin-panel" class="card hidden">
+        <div id="admin-panel" class="card hidden" aria-hidden="true">
           <h2>Admin Panel</h2>
 
           <h3>Absensi</h3>
@@ -295,7 +303,7 @@
     </main>
   </div>
 
-  <!-- LOGIN MODAL PENGAJAR (DITAMBAHKAN) -->
+  <!-- LOGIN MODAL PENGAJAR -->
   <div id="modalPengajar" class="modal-backdrop" aria-hidden="true">
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <h3 id="modalTitle">Login Pengajar</h3>
@@ -306,56 +314,64 @@
         <button class="ghost" onclick="closePengajarLogin()">Batal</button>
         <button class="primary" onclick="submitPengajarLogin()">Masuk</button>
       </div>
-      <div id="modal-msg" class="muted" style="margin-top:10px;color:var(--red);display:none"></div>
+      <div id="modal-msg" class="muted" style="margin-top:10px;color:var(--red);display:none" aria-live="polite"></div>
     </div>
   </div>
 
   <script>
   /* =========================
-     STORAGE KEYS & HELPERS
+     KEYS / HELPERS
      ========================= */
   const KEY_ABS = 'nevtik_absensi_v2';
   const KEY_Q   = 'nevtik_questions_v2';
   const KEY_RES = 'nevtik_results_v2';
 
-  function load(key){ try{ return JSON.parse(localStorage.getItem(key) || '[]'); }catch(e){ return []; } }
-  function save(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
+  function loadFromStorage(key){
+    try { return JSON.parse(localStorage.getItem(key) || '[]'); }
+    catch(e) { return []; }
+  }
+  function saveToStorage(key, data){
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+  function escapeHtml(t){ return String(t||'').replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[s])); }
 
   /* =========================
      NAVIGATION
      ========================= */
   function nav(view, btn){
-    // highlight
     document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
     if(btn) btn.classList.add('active');
-    // show
     document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));
-    document.getElementById(view).classList.remove('hidden');
-    // special: update dynamic views
+    const el = document.getElementById(view);
+    if(el) el.classList.remove('hidden');
+
+    // call updates for dynamic views
     if(view === 'absensi') renderRecentAbs();
     if(view === 'pengajar') renderQuestionList();
-    if(view === 'admin') { /* nothing */ }
-    if(view === 'lms') { /* nothing */ }
+    if(view === 'admin') { /* nothing special here */ }
   }
-  // init default
+  // show default
   nav('beranda', document.getElementById('nav-beranda'));
 
   /* =========================
      ABSENSI
      ========================= */
-  function loadAbs(){ return load(KEY_ABS); }
-  function saveAbs(a){ save(KEY_ABS, a); }
+  function loadAbs(){ return loadFromStorage(KEY_ABS); }
+  function saveAbs(a){ saveToStorage(KEY_ABS, a); }
 
   function submitAbsensi(){
     const name = document.getElementById('abs-nama').value.trim();
     const kelas = document.getElementById('abs-kelas').value;
-    if(!name){ document.getElementById('abs-msg').innerText = 'Nama harus diisi'; return; }
+    const msgEl = document.getElementById('abs-msg');
+    msgEl.innerText = '';
+    if(!name){ msgEl.innerText = 'Nama harus diisi'; return; }
     const arr = loadAbs();
     arr.push({name, kelas, time: new Date().toLocaleString()});
     saveAbs(arr);
-    document.getElementById('abs-msg').innerText = 'Absensi berhasil dikirim.';
+    msgEl.innerText = 'Absensi berhasil dikirim.';
     document.getElementById('abs-nama').value = '';
     renderRecentAbs();
+    setTimeout(()=>msgEl.innerText='',2500);
   }
   function clearAbsensiForm(){ document.getElementById('abs-nama').value=''; document.getElementById('abs-msg').innerText=''; }
 
@@ -368,10 +384,10 @@
   }
 
   /* =========================
-     PENGAJAR: BANK SOAL (CRUD sederhana)
+     PENGAJAR: BANK SOAL
      ========================= */
-  function loadQuestions(){ return load(KEY_Q); }
-  function saveQuestions(qs){ save(KEY_Q, qs); }
+  function loadQuestions(){ return loadFromStorage(KEY_Q); }
+  function saveQuestions(qs){ saveToStorage(KEY_Q, qs); }
 
   function addQuestion(){
     const text = document.getElementById('q-text').value.trim();
@@ -382,13 +398,16 @@
       document.getElementById('q-a3').value.trim()
     ];
     const correct = Number(document.getElementById('q-correct').value);
-    if(!text || opts.some(o=>!o)){ document.getElementById('q-form-msg').innerText = 'Lengkapi soal dan semua pilihan'; return; }
+    const msg = document.getElementById('q-form-msg');
+    msg.innerText = '';
+    if(!text || opts.some(o=>!o)){ msg.innerText = 'Lengkapi soal dan semua pilihan'; return; }
     const qs = loadQuestions();
     qs.push({id: Date.now(), text, opts, correct});
     saveQuestions(qs);
-    document.getElementById('q-form-msg').innerText = 'Soal tersimpan.';
+    msg.innerText = 'Soal tersimpan.';
     clearQuestionForm();
     renderQuestionList();
+    setTimeout(()=>msg.innerText='',2000);
   }
 
   function clearQuestionForm(){
@@ -398,7 +417,6 @@
     document.getElementById('q-a2').value='';
     document.getElementById('q-a3').value='';
     document.getElementById('q-correct').value='0';
-    setTimeout(()=>document.getElementById('q-form-msg').innerText='',2000);
   }
 
   function renderQuestionList(){
@@ -427,22 +445,21 @@
   }
 
   function editQuestion(id){
-    // load question into form for editing (simple approach: delete old, fill form)
     const arr = loadQuestions();
     const q = arr.find(x=>x.id===id);
     if(!q) return;
-    // fill form
     document.getElementById('q-text').value = q.text;
     document.getElementById('q-a0').value = q.opts[0];
     document.getElementById('q-a1').value = q.opts[1];
     document.getElementById('q-a2').value = q.opts[2];
     document.getElementById('q-a3').value = q.opts[3];
     document.getElementById('q-correct').value = q.correct.toString();
-    // remove original
+    // remove original to avoid duplicates on save
     const other = arr.filter(x=>x.id!==id);
     saveQuestions(other);
     renderQuestionList();
     document.getElementById('q-form-msg').innerText = 'Edit mode: ubah lalu klik "Tambah Soal" untuk menyimpan.';
+    setTimeout(()=>document.getElementById('q-form-msg').innerText='',3500);
   }
 
   /* =========================
@@ -450,15 +467,21 @@
      ========================= */
   let quizState = null; // {name, cls, answers:{qId:choice}, index, qlist}
 
+  function clearStudentForm(){
+    document.getElementById('stu-name').value='';
+    document.getElementById('stu-class').selectedIndex = 0;
+    document.getElementById('lms-msg').innerText='';
+  }
+
   function startQuiz(){
     const name = document.getElementById('stu-name').value.trim();
     const cls = document.getElementById('stu-class').value;
     const questions = loadQuestions();
-    if(!name){ document.getElementById('lms-msg').innerText = 'Masukkan nama lengkap'; return; }
-    if(!questions.length){ document.getElementById('lms-msg').innerText = 'Belum ada soal. Hubungi pengajar.'; return; }
-    // init
-    quizState = {name, cls, answers:{}, index:0, qlist: questions};
-    document.getElementById('lms-msg').innerText = '';
+    const lmsMsg = document.getElementById('lms-msg');
+    lmsMsg.innerText = '';
+    if(!name){ lmsMsg.innerText = 'Masukkan nama lengkap'; return; }
+    if(!questions.length){ lmsMsg.innerText = 'Belum ada soal. Hubungi pengajar.'; return; }
+    quizState = {name, cls, answers:{}, index:0, qlist: JSON.parse(JSON.stringify(questions))}; // clone to avoid mutation
     renderQuizQuestion();
   }
 
@@ -470,7 +493,7 @@
       return `<label class="choice"><input type="radio" name="choice" value="${i}"> ${String.fromCharCode(65+i)}. ${escapeHtml(o)}</label>`;
     }).join('');
     area.innerHTML = `
-      <div class="soal-box">
+      <div class="soal-box" role="region" aria-label="Soal">
         <div style="font-weight:700">Soal ${quizState.index+1} / ${quizState.qlist.length}</div>
         <p style="margin-top:8px">${escapeHtml(q.text)}</p>
         <div style="margin-top:10px">${choicesHtml}</div>
@@ -485,7 +508,9 @@
 
   function submitAnswer(){
     const sel = document.querySelector('input[name="choice"]:checked');
-    if(!sel){ document.getElementById('quiz-note').innerText = 'Pilih jawaban dulu'; return; }
+    const note = document.getElementById('quiz-note');
+    note.innerText = '';
+    if(!sel){ note.innerText = 'Pilih jawaban dulu'; return; }
     const choice = Number(sel.value);
     const q = quizState.qlist[quizState.index];
     quizState.answers[q.id] = choice;
@@ -494,7 +519,6 @@
   }
 
   function finishQuiz(){
-    // calculate score
     const qs = quizState.qlist;
     let correct = 0;
     qs.forEach(q=>{
@@ -502,38 +526,52 @@
       if(a === q.correct) correct++;
     });
     const score = Math.round((correct / qs.length) * 100);
-    // save result
-    const results = load(KEY_RES) || [];
+    const results = loadFromStorage(KEY_RES) || [];
     results.push({id: Date.now(), name: quizState.name, cls: quizState.cls, score, time: new Date().toLocaleString()});
-    save(KEY_RES, results);
-    // show
-    document.getElementById('quiz-area').innerHTML = `<div class="card"><h3>Quiz selesai</h3><p>Skor: <strong>${score}</strong></p><p class="muted">Hasil tersimpan dan dapat dilihat oleh admin.</p></div>`;
+    saveToStorage(KEY_RES, results);
+
+    document.getElementById('quiz-area').innerHTML = `<div class="card"><h3>Quiz selesai</h3><p>Nama: <strong>${escapeHtml(quizState.name)}</strong></p><p>Kelas: <strong>${escapeHtml(quizState.cls)}</strong></p><p>Skor: <strong>${score}</strong></p><p class="muted">Hasil tersimpan dan dapat dilihat oleh admin.</p><div style="margin-top:12px"><button class="primary" onclick="resetQuiz()">Selesai</button></div></div>`;
     quizState = null;
   }
 
-  function cancelQuiz(){ if(confirm('Batal quiz?')){ quizState=null; document.getElementById('quiz-area').style.display='none'; } }
+  function resetQuiz(){
+    document.getElementById('quiz-area').style.display = 'none';
+    document.getElementById('quiz-area').innerHTML = '';
+  }
+
+  function cancelQuiz(){ if(confirm('Batal quiz?')){ quizState=null; resetQuiz(); } }
 
   /* =========================
      ADMIN PANEL (login + view results)
      ========================= */
-  const ADMIN_CRED = {user:'admin', pass:'12345'}; // default (bisa diubah di kode)
+  // Credentials (you requested me to set)
+  const ADMIN_CRED = {user:'admin', pass:'12345'};
+  const TEACHER_CRED = {user:'pengajar', pass:'guru123'};
 
   function adminLogin(){
     const u = document.getElementById('admin-user').value.trim();
     const p = document.getElementById('admin-pass').value.trim();
+    const msg = document.getElementById('admin-login-msg');
+    msg.innerText = '';
     if(u === ADMIN_CRED.user && p === ADMIN_CRED.pass){
       document.getElementById('admin-login-card').classList.add('hidden');
       document.getElementById('admin-panel').classList.remove('hidden');
       renderAdminTables();
+      // highlight nav
       nav('admin', document.getElementById('nav-admin'));
     } else {
-      document.getElementById('admin-login-msg').innerText = 'Username / password salah';
+      msg.innerText = 'Username / password salah';
     }
   }
 
   function adminLogout(){
     document.getElementById('admin-login-card').classList.remove('hidden');
     document.getElementById('admin-panel').classList.add('hidden');
+    document.getElementById('admin-user').value = "";
+    document.getElementById('admin-pass').value = "";
+    document.getElementById('admin-login-msg').innerText = "";
+    // go home
+    nav('beranda', document.getElementById('nav-beranda'));
   }
 
   function renderAdminTables(){
@@ -551,10 +589,10 @@
       </tr>`;
     });
     // results
-    const res = load(KEY_RES);
+    const res = loadFromStorage(KEY_RES) || [];
     const r = document.getElementById('admin-results');
     r.innerHTML = '';
-    (res||[]).forEach((it, i)=>{
+    res.forEach((it, i)=>{
       r.innerHTML += `<tr>
         <td>${i+1}</td>
         <td>${escapeHtml(it.name)}</td>
@@ -597,126 +635,28 @@
     a.href = URL.createObjectURL(blob);
     a.download = filename;
     a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
   }
 
   function exportAllCSV(){
     const abs = loadAbs();
-    const res = load(KEY_RES) || [];
+    const res = loadFromStorage(KEY_RES) || [];
     if(abs.length) exportCSV('absensi.csv', abs.map((a,i)=>({no:i+1,nama:a.name,kelas:a.kelas,waktu:a.time})));
     if(res.length) exportCSV('hasil_quiz.csv', res.map((r,i)=>({no:i+1,nama:r.name,kelas:r.cls,skor:r.score,waktu:r.time})));
-    if(!abs.length && !(res.length)) alert('Tidak ada data untuk diexport');
+    if(!abs.length && !res.length) alert('Tidak ada data untuk diexport');
   }
 
   /* =========================
-     UTILITY: render startup
+     PENGAJAR LOGIN MODAL
      ========================= */
-  function updateQuiz(){ /* regenerate quiz area if needed */ }
-  function renderQuestionListOnStartup(){ renderQuestionList(); }
-  function updateNilaiList(){ /* if admin already logged */ }
-
-  // initial renders
-  renderQuestionList();
-  renderRecentAbs();
-  // if admin panel should be shown by default, modify nav/init logic
-
-  /* =========================
-     small helpers
-     ========================= */
-  function load(key){ try{ return JSON.parse(localStorage.getItem(key) || '[]'); }catch(e){return [];} }
-  function save(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
-  function escapeHtml(t){ return String(t||'').replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[s])); }
-
-  // keep functions used earlier consistent with above helpers
-  function loadQuestions(){ return load(KEY_Q); }
-  function saveQuestions(q){ save(KEY_Q, q); }
-  function loadResults(){ return load(KEY_RES); }
-  function saveResults(r){ save(KEY_RES, r); }
-  // aliases used above
-  function addQuestion(){ addQuestionImpl(); } // avoid duplicate name conflict placeholder
-  function addQuestionImpl(){
-    const text = document.getElementById('q-text').value.trim();
-    const opts = [
-      document.getElementById('q-a0').value.trim(),
-      document.getElementById('q-a1').value.trim(),
-      document.getElementById('q-a2').value.trim(),
-      document.getElementById('q-a3').value.trim()
-    ];
-    const correct = Number(document.getElementById('q-correct').value);
-    if(!text || opts.some(o=>!o)){ document.getElementById('q-form-msg').innerText = 'Lengkapi soal dan semua pilihan'; return; }
-    const qs = loadQuestions();
-    qs.push({id:Date.now(), text, opts, correct});
-    saveQuestions(qs);
-    document.getElementById('q-form-msg').innerText = 'Soal tersimpan.';
-    clearQuestionForm();
-    renderQuestionList();
-    // clear message after 2s
-    setTimeout(()=>document.getElementById('q-form-msg').innerText='',2000);
-  }
-
-  // ensure deleteQuestion and editQuestion use load/save above (they already do)
-  function deleteQuestion(id){ const arr = loadQuestions().filter(s=>s.id!==id); saveQuestions(arr); renderQuestionList(); }
-  function editQuestion(id){
-    const arr = loadQuestions();
-    const q = arr.find(x=>x.id===id);
-    if(!q) return;
-    document.getElementById('q-text').value = q.text;
-    document.getElementById('q-a0').value = q.opts[0];
-    document.getElementById('q-a1').value = q.opts[1];
-    document.getElementById('q-a2').value = q.opts[2];
-    document.getElementById('q-a3').value = q.opts[3];
-    document.getElementById('q-correct').value = q.correct.toString();
-    // remove original entry
-    const other = loadQuestions().filter(x=>x.id!==id);
-    saveQuestions(other);
-    renderQuestionList();
-    document.getElementById('q-form-msg').innerText = 'Edit mode: ubah lalu klik Tambah Soal';
-  }
-
-  // finish: implement function names referenced earlier
-  function load(key){ try{ return JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){return [];} }
-  function save(key,data){ localStorage.setItem(key, JSON.stringify(data)); }
-  function addQuestion(){ addQuestionImpl(); } // ensure exported name defined
-
-  // Keep admin rendering function up-to-date after edits
-  function renderAdminTables(){ 
-    const abs = load(KEY_ABS);
-    const t = document.getElementById('admin-absensi'); t.innerHTML='';
-    abs.forEach((a,i)=>{ t.innerHTML += `<tr><td>${i+1}</td><td>${escapeHtml(a.name)}</td><td>${escapeHtml(a.kelas)}</td><td>${escapeHtml(a.time)}</td><td><button class="ghost small" onclick="adminDeleteAbs(${i})">Hapus</button></td></tr>`; });
-    const res = load(KEY_RES); const r = document.getElementById('admin-results'); r.innerHTML='';
-    (res||[]).forEach((it,i)=>{ r.innerHTML += `<tr><td>${i+1}</td><td>${escapeHtml(it.name)}</td><td>${escapeHtml(it.cls)}</td><td>${it.score}</td><td>${escapeHtml(it.time)}</td></tr>`; });
-  }
-
-  // ensure renderQuestionList refers to latest loader
-  function renderQuestionList(){ 
-    const qs = loadQuestions();
-    const wrap = document.getElementById('question-list');
-    if(!qs.length){ wrap.innerHTML = '<div class="muted">Belum ada soal</div>'; return; }
-    wrap.innerHTML = qs.map((q,idx)=>`<div style="padding:10px;border-bottom:1px solid #f2f2f2"><div style="display:flex;justify-content:space-between;align-items:center"><div><strong>Q${idx+1}.</strong> ${escapeHtml(q.text)}</div><div style="display:flex;gap:8px"><button class="ghost small" onclick="editQuestion(${q.id})">Edit</button><button class="ghost small" onclick="deleteQuestion(${q.id})">Hapus</button></div></div><div style="margin-top:8px;color:#555">${q.opts.map((o,i)=>`<span style="display:inline-block;margin-right:8px;padding:6px 8px;border-radius:6px;background:#fafafa;border:1px solid #eee">${String.fromCharCode(65+i)}. ${escapeHtml(o)}${i===q.correct? ' ✓':''}</span>`).join('')}</div></div>`).join('');
-  }
-
-  // initial call to populate UI
-  renderQuestionList();
-  renderRecentAbs();
-
-  /* =========================
-     PENGAJAR LOGIN MODAL LOGIC
-     ========================= */
-
-  // Tambah credential pengajar (dan biarkan admin juga bisa masuk via modal)
-  const TEACHER_CRED = {user: 'pengajar', pass: 'guru123'}; // kamu bisa ubah ini kalau mau
-
-  // menyimpan tombol nav yg dipakai untuk highlight setelah login
   let pendingNavButton = null;
 
   function openPengajarLogin(btn){
-    // simpan tombol caller agar bisa di-highlight setelah login
     if(btn) pendingNavButton = btn;
     document.getElementById('modalPengajar').style.display = 'flex';
     document.getElementById('modal-msg').style.display = 'none';
-    // clear inputs
     document.getElementById('modalUser').value = '';
     document.getElementById('modalPass').value = '';
-    // fokus user
     setTimeout(()=>document.getElementById('modalUser').focus(),100);
   }
 
@@ -729,201 +669,49 @@
     const u = document.getElementById('modalUser').value.trim();
     const p = document.getElementById('modalPass').value.trim();
     const msgEl = document.getElementById('modal-msg');
-
-    // cek credential: bisa TEACHER_CRED atau ADMIN_CRED
-    if( (u === TEACHER_CRED.user && p === TEACHER_CRED.pass) || (u === ADMIN_CRED.user && p === ADMIN_CRED.pass) ){
-      // simpan session role di sessionStorage (hanya selama tab terbuka)
+    msgEl.innerText = '';
+    if((u === TEACHER_CRED.user && p === TEACHER_CRED.pass) || (u === ADMIN_CRED.user && p === ADMIN_CRED.pass)){
+      // session role (tab-only)
       const role = (u === TEACHER_CRED.user) ? 'pengajar' : 'admin';
       sessionStorage.setItem('nevtik_role', role);
-
-      // show logout btn di pengajar view
       document.getElementById('peng-logout-btn').classList.remove('hidden');
-
-      // close modal dan masuk ke pengajar
       closePengajarLogin();
-      // highlight nav pengajar button if available
       const btn = pendingNavButton || document.getElementById('nav-pengajar');
       nav('pengajar', btn);
       pendingNavButton = null;
-      msgEl.style.display = 'none';
     } else {
       msgEl.innerText = 'Username atau password salah';
       msgEl.style.display = 'block';
     }
   }
+
   function pengajarLogout(){
     sessionStorage.removeItem('nevtik_role');
-    // hide logout button
     document.getElementById('peng-logout-btn').classList.add('hidden');
-    // kembali ke beranda
     nav('beranda', document.getElementById('nav-beranda'));
   }
 
-  // Jika user sudah login di session (mis. reload halaman) tunjukkan tombol logout di pengajar
   (function initPengajarSession(){
     const role = sessionStorage.getItem('nevtik_role');
     if(role === 'pengajar' || role === 'admin'){
       document.getElementById('peng-logout-btn').classList.remove('hidden');
     }
   })();
-    document.getElementById('quiz-area').innerHTML = `
-      <div class="card">
-        <h2>Hasil Quiz</h2>
-        <p>Nama: <strong>${escapeHtml(quizState.name)}</strong></p>
-        <p>Kelas: <strong>${escapeHtml(quizState.cls)}</strong></p>
-        <p>Skor Anda: <strong>${score}</strong></p>
-        <div style="margin-top:12px">
-          <button class="primary" onclick="resetQuiz()">Selesai</button>
-        </div>
-      </div>
-    `;
-    quizState = null;
-    }
 
-    function resetQuiz(){
-    document.getElementById('quiz-area').style.display = 'none';
-    document.getElementById('quiz-area').innerHTML = '';
-    }
-
-    function cancelQuiz(){
-    if(confirm("Batalkan quiz?")){
-      quizState = null;
-      document.getElementById('quiz-area').style.display = 'none';
-      document.getElementById('quiz-area').innerHTML = '';
-    }
-    }
-
-    /* =========================
-     ADMIN PANEL
+  /* =========================
+     INIT
      ========================= */
-    function adminLogin(){
-    const u = document.getElementById('admin-user').value.trim();
-    const p = document.getElementById('admin-pass').value.trim();
-    if(u === "admin" && p === "123"){
-      document.getElementById('admin-login-card').classList.add('hidden');
-      document.getElementById('admin-panel').classList.remove('hidden');
-      renderAdminTables();
-    } else {
-      document.getElementById('admin-login-msg').innerText = "Login gagal.";
+  // initial render
+  renderQuestionList();
+  renderRecentAbs();
+
+  // accessibility: close modal on ESC
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      const modal = document.getElementById('modalPengajar');
+      if(modal && modal.style.display === 'flex') closePengajarLogin();
     }
-    }
-
-    function adminLogout(){
-    document.getElementById('admin-login-card').classList.remove('hidden');
-    document.getElementById('admin-panel').classList.add('hidden');
-    document.getElementById('admin-user').value = "";
-    document.getElementById('admin-pass').value = "";
-    document.getElementById('admin-login-msg').innerText = "";
-    }
-
-    function renderAdminTables(){
-    // absensi
-    const abs = loadAbs();
-    document.getElementById('admin-absensi').innerHTML = abs.map((a,i)=>`
-      <tr>
-        <td>${i+1}</td>
-        <td>${escapeHtml(a.name)}</td>
-        <td>${escapeHtml(a.kelas)}</td>
-        <td>${escapeHtml(a.time)}</td>
-        <td><button class="ghost small" onclick="deleteAbs(${i})">Hapus</button></td>
-      </tr>
-    `).join('');
-
-    // results
-    const res = load(KEY_RES);
-    document.getElementById('admin-results').innerHTML = res.map((r,i)=>`
-      <tr>
-        <td>${i+1}</td>
-        <td>${escapeHtml(r.name)}</td>
-        <td>${escapeHtml(r.cls)}</td>
-        <td>${r.score}</td>
-        <td>${escapeHtml(r.time)}</td>
-      </tr>
-    `).join('');
-    }
-
-    function deleteAbs(i){
-    const arr = loadAbs();
-    arr.splice(i,1);
-    saveAbs(arr);
-    renderAdminTables();
-    }
-
-    /* =========================
-     EXPORT CSV
-     ========================= */
-    function exportAllCSV(){
-    const abs = loadAbs();
-    const res = load(KEY_RES);
-
-    let csv = "Absensi\nNama,Kelas,Waktu\n";
-    abs.forEach(a=> csv += `"${a.name}","${a.kelas}","${a.time}"\n`);
-
-    csv += "\nHasil Quiz\nNama,Kelas,Skor,Waktu\n";
-    res.forEach(r=> csv += `"${r.name}","${r.cls}",${r.score},"${r.time}"\n`);
-
-    const blob = new Blob([csv],{type:"text/csv"});
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "nevtik_data.csv";
-    a.click();
-    }
-
-    /* =========================
-     100% RESET DATA
-     ========================= */
-    function clearAllData(){
-    if(confirm("Hapus semua data?")){
-      localStorage.removeItem(KEY_ABS);
-      localStorage.removeItem(KEY_Q);
-      localStorage.removeItem(KEY_RES);
-      alert("Semua data dihapus.");
-      renderAdminTables();
-    }
-    }
-
-    /* =========================
-     LOGIN PENGAJAR (MODAL)
-     ========================= */
-    function openPengajarLogin(){
-    document.getElementById('modalPengajar').style.display = 'flex';
-    }
-
-    function closePengajarLogin(){
-    document.getElementById('modalPengajar').style.display = 'none';
-    document.getElementById('modal-msg').style.display = 'none';
-    }
-
-    function submitPengajarLogin(){
-    const u = document.getElementById('modalUser').value.trim();
-    const p = document.getElementById('modalPass').value.trim();
-
-    if(u === "guru" && p === "123"){
-      closePengajarLogin();
-      nav('pengajar');
-      document.getElementById('peng-logout-btn').classList.remove('hidden');
-    } else {
-      const msg = document.getElementById('modal-msg');
-      msg.innerText = "Username atau password salah.";
-      msg.style.display = 'block';
-    }
-    }
-
-    function pengajarLogout(){
-    nav('beranda', document.getElementById('nav-beranda'));
-    document.getElementById('peng-logout-btn').classList.add('hidden');
-    }
-
-    /* =========================
-     UTIL
-     ========================= */
-    function escapeHtml(s){
-    return s.replace(/[&<>"']/g, c => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[c]));
-    }
-    </script>
-
+  });
 
   </script>
 </body>
